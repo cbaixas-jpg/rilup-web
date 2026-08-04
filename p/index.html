@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rilup — captura verificada</title>
+<style>
+  body{margin:0;background:#17110B;color:#F4EDDF;font-family:system-ui,sans-serif;
+       display:flex;flex-direction:column;align-items:center;min-height:100vh}
+  .card{max-width:420px;width:100%;padding:16px;box-sizing:border-box}
+  .media{width:100%;border-radius:14px;background:#000;display:block}
+  .row{display:flex;align-items:center;gap:8px;margin:12px 0 4px}
+  .user{font-weight:700}
+  .seal{color:#FE5901;font-size:14px;font-weight:600}
+  .caption{margin:6px 0 16px;line-height:1.4}
+  .brand{color:#FE5901;font-weight:800;font-size:22px;margin:20px 0 4px}
+  .tag{color:#8a7f70;font-size:13px;margin-bottom:16px}
+  .cta{display:inline-block;background:#FE5901;color:#F4EDDF;text-decoration:none;
+       padding:12px 28px;border-radius:999px;font-weight:700}
+  .note{color:#8a7f70;font-size:12px;margin:24px 16px 32px;text-align:center;max-width:420px}
+  .err{padding:40px 16px;text-align:center}
+</style>
+</head>
+<body>
+<div class="card" id="card"><div class="err">Cargando…</div></div>
+<div class="brand">rilup</div>
+<div class="tag">Vuelve a lo que es real.</div>
+<a class="cta" href="https://play.google.com/store/apps/details?id=com.pahoex.rilup">Consigue Rilup</a>
+<p class="note">Todo en Rilup fue capturado en vivo con la cámara, verificado criptográficamente
+en el momento de la captura. Sin importar archivos. Sin contenido generado.</p>
+<script>
+const API = "https://picjhxuzmyusghebkkhj.supabase.co/functions/v1/p/";
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+(async () => {
+  const card = document.getElementById("card");
+  const id = new URLSearchParams(location.search).get("id") || "";
+  if (!/^[0-9a-f-]{36}$/i.test(id)) {
+    card.innerHTML = '<div class="err">Esta publicación no existe o fue eliminada.</div>';
+    return;
+  }
+  try {
+    const r = await fetch(API + id + "?format=json");
+    if (!r.ok) throw 0;
+    const p = await r.json();
+
+    // Trim declarado → el navegador reproduce solo la ventana (#t=inicio,fin)
+    let frag = "";
+    const trim = (p.transformations || []).find(t => t && t.type === "trim");
+    if (trim) frag = `#t=${trim.start_ms/1000},${trim.end_ms/1000}`;
+
+    const media = p.media_type === "video"
+      ? `<video class="media" controls playsinline ${p.thumb_url ? `poster="${esc(p.thumb_url)}"` : ""} src="${esc(p.media_url)}${frag}"></video>`
+      : `<img class="media" src="${esc(p.media_url)}" alt="Captura de @${esc(p.username)}">`;
+
+    const seal = p.confirmed_real ? "✔ Real Confirmado" : "✔ verificado";
+
+    card.innerHTML = media +
+      `<div class="row"><span class="user">@${esc(p.username)}</span><span class="seal">${seal}</span></div>` +
+      (p.caption ? `<div class="caption">${esc(p.caption)}</div>` : "");
+    document.title = `@${p.username} en Rilup — captura verificada`;
+  } catch {
+    card.innerHTML = '<div class="err">Esta publicación no existe o fue eliminada.</div>';
+  }
+})();
+</script>
+</body>
+</html>

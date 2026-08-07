@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo funciona, Rilup</title>
+<meta name="description" content="Rilup no detecta AI: verifica el origen. Cómo se sella cada captura en el momento de tomarla, qué prueba eso y qué no.">
+<meta name="theme-color" content="#17110B">
+<link rel="icon" href="../mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Rilup">
+<meta property="og:title" content="Cómo funciona Rilup">
+<meta property="og:description" content="No detectamos AI. Verificamos el origen de cada captura, en el instante en que ocurre.">
+<meta property="og:url" content="https://rilup.com/como-funciona/">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+<!-- El dactilograma de Rilup, copiado de res/drawable/ic_rilup_mark.xml (y de MARK_PATHS en
+     supabase/functions/p/index.ts). El <g> lleva el mismo transform que el vector de Android.
+     Se define una vez y se reusa con <use>; el color lo pone currentColor. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="rilup-mark" viewBox="0 0 641 838">
+    <g transform="translate(-330.99561,1062.800234) scale(0.1,-0.1)">
+      <path d="M5760 10619 c-751 -34 -1537 -202 -2242 -478 -86 -34 -114 -50 -146 -85 -103 -112 -74 -278 60 -347 67 -34 116 -26 339 55 581 212 1089 328 1709 393 232 24 834 24 1040 0 471 -55 830 -155 1170 -328 188 -95 306 -170 460 -294 476 -382 772 -925 856 -1570 24 -180 24 -545 1 -715 -87 -633 -323 -1170 -718 -1635 -37 -44 -139 -151 -227 -237 -170 -168 -207 -221 -237 -333 -30 -116 -14 -237 48 -365 83 -172 661 -879 1126 -1380 383 -411 420 -439 540 -410 123 29 195 169 147 284 -8 19 -99 124 -202 233 -401 424 -787 876 -1106 1293 -111 146 -128 176 -128 227 0 35 9 46 112 148 161 158 239 244 347 380 523 655 791 1494 750 2346 -16 340 -88 676 -205 964 -299 731 -868 1283 -1639 1588 -401 159 -809 240 -1344 267 -221 11 -261 11 -511 -1z"/>
+      <path d="M5720 9773 c-19 -1 -87 -8 -150 -14 -620 -56 -1311 -254 -1884 -536 -249 -123 -308 -161 -340 -217 -87 -150 10 -325 180 -326 45 0 77 13 271 108 384 189 705 308 1083 402 338 84 602 123 947 142 621 33 1176 -82 1582 -328 192 -117 398 -305 513 -469 375 -538 409 -1267 89 -1920 -110 -225 -240 -404 -426 -590 -180 -181 -383 -328 -625 -453 -223 -116 -408 -183 -757 -276 -211 -56 -308 -118 -364 -231 -20 -43 -24 -64 -24 -145 1 -83 5 -105 33 -176 88 -222 513 -845 967 -1419 347 -440 846 -995 928 -1034 94 -45 171 -35 241 29 52 48 70 99 64 174 -6 71 -16 84 -220 303 -515 553 -1123 1339 -1467 1898 -96 157 -85 182 102 234 574 158 1026 406 1400 771 431 419 694 923 777 1493 25 163 27 497 5 659 -41 310 -177 667 -348 915 -402 584 -1057 923 -1937 1003 -104 9 -554 12 -640 3z"/>
+      <path d="M5615 8914 c-736 -85 -1486 -367 -2102 -791 -132 -90 -164 -124 -189 -197 -49 -144 79 -293 233 -270 34 5 76 27 167 89 493 333 1076 576 1646 684 242 45 355 55 635 55 292 0 392 -12 595 -69 393 -111 660 -355 767 -702 25 -82 27 -101 27 -268 0 -163 -3 -189 -27 -278 -67 -248 -229 -493 -441 -666 -254 -208 -554 -337 -1026 -441 -393 -87 -548 -154 -709 -304 -63 -60 -142 -175 -170 -250 -57 -153 -55 -90 -59 -1466 -2 -895 0 -1280 8 -1316 13 -60 56 -117 113 -145 32 -17 54 -20 103 -17 75 5 128 37 165 101 l24 42 5 1275 5 1275 22 58 c67 177 196 254 548 327 527 108 889 259 1205 500 353 270 590 653 661 1071 27 157 23 403 -9 539 -109 464 -413 817 -873 1013 -151 65 -317 111 -514 144 -127 21 -647 26 -810 7z"/>
+      <path d="M5710 8075 c-566 -71 -1153 -295 -1684 -642 -261 -170 -469 -342 -564 -465 -53 -69 -105 -175 -128 -263 -18 -67 -19 -141 -19 -2042 l0 -1971 30 -44 c42 -59 96 -88 165 -88 97 0 174 53 205 139 13 39 15 256 15 1916 0 1216 4 1891 10 1925 15 79 50 148 108 211 102 111 384 308 658 461 653 363 1414 525 1826 388 346 -115 278 -419 -137 -610 -151 -71 -283 -108 -685 -196 -91 -19 -205 -47 -255 -61 -647 -180 -1029 -588 -1095 -1169 -8 -70 -10 -509 -8 -1486 l3 -1386 30 -44 c42 -59 96 -88 166 -88 80 0 135 31 177 100 l32 54 0 1286 c1 707 5 1344 9 1415 10 141 29 232 72 338 106 263 330 444 680 550 62 19 227 58 364 87 273 57 447 106 607 170 444 178 690 466 691 810 1 343 -249 600 -670 690 -130 28 -437 36 -603 15z"/>
+      <path d="M7134 4771 c-96 -24 -159 -107 -159 -206 1 -71 9 -88 112 -233 403 -567 942 -1205 1483 -1755 113 -115 223 -219 245 -232 84 -49 177 -41 245 21 51 46 75 108 67 174 -8 68 -30 105 -102 175 -177 172 -568 593 -812 875 -248 288 -510 619 -728 922 -65 89 -130 176 -144 191 -51 56 -140 85 -207 68z"/>
+    </g>
+  </symbol>
+</svg>
+
+<header class="top">
+  <a class="brand wordmark" href="../">
+    <svg class="mark" viewBox="0 0 641 838" aria-hidden="true"><use href="#rilup-mark"/></svg>
+    <span>rilup</span>
+  </a>
+  <nav>
+    <a href="../">Inicio</a>
+    <a href="../manifiesto/">Manifiesto</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero wrap" style="padding-bottom:8px">
+    <h1>Cómo funciona</h1>
+    <p class="sub">Lo que hay detrás del sello, explicado sin humo.</p>
+  </section>
+
+  <!-- ============ CÓMO FUNCIONA ============ -->
+  <section class="wrap" id="como-funciona">
+    <p class="eyebrow">Cómo funciona</p>
+    <h2>No detectamos AI. Verificamos el origen.</h2>
+    <p>Adivinar qué imagen fue generada es una carrera perdida: cada mes se vuelve más difícil.
+      Así que Rilup no juega ese juego. En vez de mirar el contenido para sospechar de él,
+      verificamos la <b>procedencia</b> de cada captura, en el instante en que ocurre.</p>
+
+    <ol class="pasos">
+      <li>
+        <b>Capturas dentro de Rilup.</b>
+        <span>La cámara de la app es la única puerta de entrada. No hay galería, no hay
+          «subir archivo», no hay forma de traer algo de otra app.</span>
+      </li>
+      <li>
+        <b>En ese mismo instante se sella la captura.</b>
+        <span>Se calcula la huella criptográfica del archivo, un número único que cambia por
+          completo si cambias un solo píxel, y se le pide a Google un veredicto de que la app
+          es la oficial, sin modificar, corriendo en un dispositivo íntegro.</span>
+      </li>
+      <li>
+        <b>El servidor comprueba, no confía.</b>
+        <span>Al publicar, nuestro servidor vuelve a calcular la huella sobre el archivo que
+          efectivamente llegó y la compara con la que se registró al capturar. Si no calzan
+          byte a byte, el archivo se borra y no se publica. Nada de esto se valida en tu
+          teléfono: el que revisa es el servidor.</span>
+      </li>
+      <li>
+        <b>La hora la ponen relojes que nadie controla.</b>
+        <span>Entre la captura y la publicación hay una ventana corta, medida contra el reloj
+          de nuestro servidor y el de Google, no contra el de tu teléfono.</span>
+      </li>
+    </ol>
+
+    <div class="dos">
+      <div class="si">
+        <h3>Qué prueba esto</h3>
+        <ul>
+          <li>Que salió de una cámara real, en un dispositivo real.</li>
+          <li>Que lo capturó la app oficial, sin modificar.</li>
+          <li>Que los bytes publicados son exactamente los que salieron del sensor.</li>
+          <li>Que la captura ocurrió cuando dice que ocurrió.</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h3>Qué no prueba</h3>
+        <ul>
+          <li><b>Qué había frente al lente.</b> Ese es el límite duro y lo decimos de frente:
+            una cámara verifica su propio origen, no la honestidad de la escena.</li>
+          <li>No prometemos que sea imposible engañar a un sistema; nadie honesto puede
+            prometer eso. Prometemos que aquí hacer trampa cuesta caro, se detecta y se
+            sanciona.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EL SELLO ============ -->
+  <section class="wrap" id="sello">
+    <p class="eyebrow">El sello</p>
+    <h2>La marca, jamás un check.</h2>
+    <p>En otras redes el ✔ significa «esta persona es quien dice ser»: habla de identidad. En
+      Rilup el sello habla del <b>contenido</b>: esto se capturó en vivo. Por eso no usamos un
+      símbolo prestado. Usamos nuestra propia marca, que ya es un dactilograma. Un mismo
+      símbolo, dos estados: la marca <b>se enciende</b>.</p>
+
+    <div class="sellos">
+      <div>
+        <span class="sello off">
+          <svg class="mark" viewBox="0 0 641 838" aria-hidden="true"><use href="#rilup-mark"/></svg> verificado
+        </span>
+        <p>La captura pasó la verificación en el momento de tomarla. Es lo que lleva todo lo que
+          se publica en Rilup: no hay contenido sin sello.</p>
+      </div>
+      <div>
+        <span class="sello on">
+          <svg class="mark" viewBox="0 0 641 838" aria-hidden="true"><use href="#rilup-mark"/></svg> Real Confirmado
+        </span>
+        <p>Alguien dudó, lo reportó, y la revisión humana confirmó que era real. Que te acusen y
+          salir verificado no es un castigo: es la medalla de haber hecho algo increíble.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NADA SE ESCONDE ============ -->
+  <section class="wrap">
+    <p class="eyebrow">Transparencia</p>
+    <h2>Puedes agregar encima. Nunca cambiar lo capturado.</h2>
+    <p>Cortes, textos, hashtags, recorte, exposición, el look: todo eso existe en Rilup, y todo
+      se guarda como una capa <b>declarada</b> que se aplica al reproducir. El archivo atestado
+      no se toca: queda intacto, byte a byte.</p>
+    <p>La consecuencia es la parte que importa: <b>cualquiera puede quitar las capas</b>.
+      Manteniendo presionado «Ver original» sobre cualquier publicación se ve la captura tal
+      como salió del sensor. Sin maquillaje, y sin tener que creernos.</p>
+    <p class="small muted">Lo que sí está prohibido: filtros o retoques que alteren la realidad
+      capturada: modificar caras o cuerpos, borrar o agregar objetos, cualquier alteración
+      generativa. Está en los <a href="../terms/">Términos</a>, y una infracción confirmada cuesta
+      el nivel y la cuenta.</p>
+  </section>
+
+  <!-- ============ LAS REGLAS ============ -->
+  <section class="wrap">
+    <p class="eyebrow">Las reglas del juego</p>
+    <h2>Todo existe por una sola razón.</h2>
+    <p class="muted">Que aquí lo que ves sea real, y que no necesites creer en nuestra palabra
+      para saberlo.</p>
+
+    <div class="rule">
+      <h3>Todo se captura aquí, en vivo.</h3>
+      <p>No se puede importar nada: ni del carrete, ni de un archivo, ni de otra app.</p>
+    </div>
+    <div class="rule">
+      <h3>Diseñado para el intento.</h3>
+      <p>Lo sorprendente nunca sale a la primera. Graba las veces que necesites y publica la
+        mejor toma: cada intento queda verificado desde el momento de capturar.</p>
+    </div>
+    <div class="rule">
+      <h3>La confianza se gana con historial, no con likes.</h3>
+      <p>Tu Reality Level sube publicando capturas verificadas a lo largo del tiempo. Nunca con
+        seguidores ni popularidad. Y no se compra.</p>
+    </div>
+    <div class="rule">
+      <h3>Ningún sistema automático sanciona solo.</h3>
+      <p>Toda sanción pasa por revisión humana, y es apelable. Un detector puede levantar la
+        mano; no puede ser juez.</p>
+    </div>
+    <div class="rule">
+      <h3>Tu feed es tuyo.</h3>
+      <p>Cronológico, solo de quienes sigues. Ningún algoritmo decide qué mereces ver. Si
+        quieres descubrir, entras a Explorar, y ahí mandan los intereses que tú declaras.</p>
+    </div>
+  </section>
+
+  <section class="wrap hero" style="padding-bottom:24px">
+    <h2>Vuelve a lo real.</h2>
+    <a class="cta" href="https://play.google.com/store/apps/details?id=com.pahoex.rilup">Consigue Rilup</a>
+    <p class="cta-nota">Android · Rilup está en beta cerrada.</p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="links">
+    <a href="../">Inicio</a>
+    <a href="../manifiesto/">Manifiesto</a>
+    <a href="../privacy/">Privacidad</a>
+    <a href="../terms/">Términos</a>
+    <a href="mailto:cbaixas@gmail.com">Contacto</a>
+  </div>
+  <p>Rilup es un producto de Pahoehoe SpA (Chile).<br>
+  Android es una marca de Google LLC.</p>
+</footer>
+
+</body>
+</html>

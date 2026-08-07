@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rilup — Política de Privacidad</title>
+<title>Rilup, política de privacidad</title>
 <style>
   body{margin:0;background:#17110B;color:#F4EDDF;font-family:system-ui,sans-serif;line-height:1.6}
   main{max-width:720px;margin:0 auto;padding:32px 20px 64px}
@@ -29,13 +29,20 @@ tratamos, para qué, y qué control tienes sobre ellos.</p>
       menciones, y los datos de edición declarados (recorte, exposición, cortes, capas).</li>
   <li><b>Verificación de captura:</b> por cada captura registramos una huella criptográfica
       (SHA-256) del archivo, un veredicto de integridad emitido por Google Play Integrity sobre
-      la app y el dispositivo, y una <b>lectura de sensores de movimiento</b> (giroscopio y
-      acelerómetro) del momento de la captura. Estos datos existen para probar que el contenido
-      es real y para detectar intentos de fraude.</li>
+      la app y el dispositivo, una <b>lectura de sensores de movimiento</b> (giroscopio y
+      acelerómetro) y la <b>configuración de la cámara</b> en ese disparo (zoom, lente,
+      iluminación, estabilización). Estos datos existen para probar que el contenido es real y,
+      sobre todo, para <b>no acusar por error</b>: sin saber si usaste zoom o estabilización, un
+      análisis puede confundir una captura legítima con una pantalla filmada.</li>
+  <li><b>Identificador del dispositivo:</b> guardamos un identificador que Android asigna a
+      Rilup en tu teléfono (SSAID). Es propio de esta app, no permite seguirte en otras, y
+      existe con un solo fin: que una suspensión permanente por fraude no se esquive creando
+      otra cuenta en el mismo aparato. Se reinicia si restableces el teléfono de fábrica.</li>
   <li><b>Actividad social:</b> a quién sigues, "me gusta", comentarios, guardados, reportes y
       mensajes directos.</li>
   <li><b>Preferencias:</b> los intereses y disciplinas que declaras para el descubrimiento.</li>
-  <li><b>Ubicación:</b> solo si otorgas el permiso, y solo asociada a la captura.</li>
+  <li><b>Ubicación:</b> Rilup <b>no</b> recoge tu ubicación. Si en el futuro la incorporamos,
+      será con permiso explícito, con precisión gruesa, y te lo diremos antes.</li>
 </ul>
 <p>No recogemos tu libreta de contactos, no rastreamos tu actividad fuera de Rilup y no usamos
 identificadores publicitarios de terceros.</p>
@@ -47,6 +54,17 @@ y pueden ver los segmentos publicados sin ediciones (modo "Ver original"). <b>El
 recortaste no es visible para otros usuarios</b>: solo es accesible para nuestro equipo de
 moderación cuando una publicación es reportada y debe revisarse. Puedes elegir, publicación por
 publicación, hacer visible el original completo.</p>
+
+<h2>2-bis. Análisis automático de las publicaciones</h2>
+<p>Al publicar, extraemos algunos fotogramas de tu captura y los analizamos automáticamente con
+dos fines: detectar si se filmó otra pantalla y detectar material prohibido por las normas de
+contenido. El análisis de contenido usa el servicio <b>Google Cloud Vision (SafeSearch)</b>, al
+que se envían esos fotogramas para su procesamiento; Google actúa como proveedor y no los usa
+para sus propios fines.</p>
+<p>Ningún resultado automático sanciona por sí solo: como máximo <b>encola la publicación para
+que una persona la revise</b>, y en casos de alta confianza puede ocultarla temporalmente
+mientras esa revisión ocurre. Puedes ver los resultados que nos llevaron a revisar tu contenido
+pidiéndolos por escrito.</p>
 
 <h2>3. Para qué usamos los datos</h2>
 <ul>

@@ -41,8 +41,37 @@ tratamos, para qué, y qué control tienes sobre ellos.</p>
   <li><b>Actividad social:</b> a quién sigues, "me gusta", comentarios, guardados, reportes y
       mensajes directos.</li>
   <li><b>Preferencias:</b> los intereses y disciplinas que declaras para el descubrimiento.</li>
-  <li><b>Ubicación:</b> Rilup <b>no</b> recoge tu ubicación. Si en el futuro la incorporamos,
-      será con permiso explícito, con precisión gruesa, y te lo diremos antes.</li>
+  <li><b>Ubicación:</b> solo si tú la enciendes, y <b>viene apagada</b>. En la cámara hay un
+      interruptor de ubicación: mientras esté apagado no leemos tu posición nunca. Si lo
+      enciendes, al capturar se toma tu posición y entra al mismo texto firmado que la hora y la
+      huella del archivo, para que no se pueda agregar ni corregir después.
+      <p><b>Qué guardamos, y qué no.</b> Tu posición precisa <b>no se guarda</b>. Antes de
+      almacenarla la redondeamos a una celda de unos <b>110 metros</b>, y la precisa se descarta.
+      Guardamos además si Android marcó esa posición como simulada.</p>
+      <p><b>Y lo que se publica es más grueso todavía.</b> Si eliges mostrar el lugar, esa
+      coordenada se vuelve a redondear a una celda de unos <b>500 metros</b>, y esa es la única
+      que sale hacia otras personas. La diferencia existe porque el riesgo no está en una
+      publicación sino en el conjunto: muchas publicaciones desde tu casa, todas con precisión de
+      110 metros, dirían dónde vives. Con 500 metros no. En la lámina se dibuja esa zona como un
+      círculo, no como un punto, para que quede claro que no es una dirección.</p>
+      <p>Redondeamos a una <b>cuadrícula fija</b> y no con desplazamientos aleatorios. Es
+      deliberado: con desplazamientos al azar, promediando varias publicaciones del mismo lugar
+      se podría recuperar el punto exacto, mientras que con cuadrícula todas las capturas de una
+      misma celda dan siempre el mismo valor y publicar más veces no revela más.</p>
+      <p><b>Dos usos distintos, y esta distinción importa.</b> Como <i>prueba</i>, sirve para
+      responder una sola pregunta cerrada, si una captura ocurrió dentro de un evento con
+      geocerco. Ese uso <b>nunca le muestra tu coordenada a nadie</b>. Como <i>contenido</i>, es
+      lo que se ve en la publicación, y ese es el único que otros usuarios pueden ver.</p>
+      <p><b>Se decide dos veces y las dos son tuyas.</b> Una al capturar, encendiendo el
+      interruptor, y otra al publicar, donde <b>"Mostrar dónde fue" viene apagado</b>. Solo si lo
+      enciendes se muestra a otras personas el nombre del lugar, la coordenada redondeada y un
+      mapa de esa zona. Puedes apagarlo cuando quieras desde la publicación, y al apagarlo se
+      borran el mapa, el nombre y la coordenada publicada.</p>
+      <p><b>Zonas privadas.</b> Puedes definir zonas donde la app no adjunta ubicación. La
+      comprobación la hace <b>tu teléfono antes de firmar</b>, así que la coordenada de una zona
+      privada no llega a salir del aparato.</p>
+      <p>Sin permiso, sin señal de GPS o dentro de una zona privada, capturas y publicas igual:
+      lo único que no obtienes es el sello de verificado en un evento.</p></li>
 </ul>
 <p>No recogemos tu libreta de contactos, no rastreamos tu actividad fuera de Rilup y no usamos
 identificadores publicitarios de terceros.</p>
@@ -80,6 +109,14 @@ pidiéndolos por escrito.</p>
 almacenamiento y autenticación) y <b>Google</b> (Play Integrity API, para el veredicto de
 integridad; distribución vía Google Play). No vendemos datos personales. Si en el futuro
 ofrecemos información a marcas, será <b>agregada y anonimizada</b>, nunca individual.</p>
+<p><b>Con otros usuarios</b>, cuando tú lo eliges: la ubicación aproximada de una publicación en
+la que activaste "mostrar dónde fue". Es el único dato de ubicación que sale hacia otras
+personas, y solo si lo enciendes.</p>
+<p>Para dibujar el mapa de esa lámina usamos <b>MapTiler</b>, con datos de
+<b>OpenStreetMap</b>. La imagen la pide <b>nuestro servidor una sola vez</b> por publicación y
+queda guardada: tu teléfono nunca habla con el proveedor de mapas, así que ni MapTiler ni nadie
+puede saber quién mira qué lugar. Y lo único que recibe el proveedor es la coordenada ya
+redondeada a la celda de 500 metros.</p>
 
 <h2>5. Conservación</h2>
 <p>Tus datos se conservan mientras tengas cuenta. Los borradores no publicados viven solo en tu
@@ -94,7 +131,9 @@ tus archivos. También puedes escribirnos a
 (Ley 21.719 de Chile y normativa equivalente).</p>
 
 <h2>7. Menores</h2>
-<p>Rilup no está dirigida a menores de 13 años (o la edad mínima que exija tu país).</p>
+<p>Rilup no está dirigida a menores de 13 años (o la edad mínima que exija tu país). Nuestros
+<a href="../seguridad-infantil/">estándares de seguridad infantil</a> explican qué está prohibido,
+cómo se denuncia desde la app y a qué autoridades avisamos.</p>
 
 <h2>8. Seguridad</h2>
 <p>Los datos viajan cifrados (HTTPS) y el acceso está restringido por políticas a nivel de base

@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía de Rilup, todo lo que puedes hacer</title>
+<meta name="description" content="Qué puedes hacer en Rilup y en qué se diferencia de cualquier otra red social: el sello, el certificado, el camino, los proyectos con su mapa y los álbumes de evento que se verifican solos.">
+<meta name="theme-color" content="#17110B">
+<link rel="icon" href="../mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Rilup">
+<meta property="og:title" content="Guía de Rilup">
+<meta property="og:description" content="Todo lo que puedes hacer, y por qué acá funciona distinto.">
+<meta property="og:url" content="https://rilup.com/guia/">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  /* La guía es la única página del sitio con capturas, así que su estilo vive acá y no en el
+     style.css común: mete una rejilla y un marco de teléfono que ninguna otra necesita. */
+  .paso { display: grid; grid-template-columns: 1fr; gap: 22px; align-items: center; margin: 54px 0; }
+  @media (min-width: 760px) {
+    .paso { grid-template-columns: 1fr 300px; gap: 44px; }
+    .paso.invertido > .texto { order: 2; }
+    .paso.invertido > .figura { order: 1; }
+  }
+  .paso h2 { margin: 0 0 10px; }
+  .paso p { margin: 0 0 12px; }
+
+  /* El teléfono. Marco simple: la captura ya trae la barra de estado, así que un marco realista
+     competiría con ella. */
+  .figura { margin: 0; }
+  .figura .pantalla {
+    position: relative;
+    aspect-ratio: 9 / 19.5;
+    border-radius: 22px;
+    overflow: hidden;
+    background: #241B10;
+    border: 1px solid rgba(244,237,223,.14);
+  }
+  .figura img, .figura video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* Si la captura todavía no existe, el hueco DICE cuál falta en vez de mostrar un ícono roto.
+     Así esta página sirve de lista de tomas mientras se está armando. */
+  .pantalla.falta::after {
+    content: attr(data-falta);
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px; text-align: center;
+    font-size: 14px; line-height: 1.5; color: #8a7f70;
+    border: 1px dashed rgba(244,237,223,.22); border-radius: 22px;
+  }
+  .figura figcaption { font-size: 13px; color: #8a7f70; margin-top: 10px; text-align: center; }
+
+  .distinto {
+    border-left: 3px solid #FE5901; padding: 2px 0 2px 14px; margin: 14px 0 0;
+    font-size: 15px;
+  }
+  .distinto b { color: #F4EDDF; }
+  .indice { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; padding: 0; list-style: none; }
+  .indice a {
+    display: inline-block; padding: 7px 13px; border-radius: 50px;
+    border: 1px solid rgba(244,237,223,.2); font-size: 14px; text-decoration: none;
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="rilup-mark" viewBox="0 0 641 838">
+    <g transform="translate(-330.99561,1062.800234) scale(0.1,-0.1)">
+      <path d="M5760 10619 c-751 -34 -1537 -202 -2242 -478 -86 -34 -114 -50 -146 -85 -103 -112 -74 -278 60 -347 67 -34 116 -26 339 55 581 212 1089 328 1709 393 232 24 834 24 1040 0 471 -55 830 -155 1170 -328 188 -95 306 -170 460 -294 476 -382 772 -925 856 -1570 24 -180 24 -545 1 -715 -87 -633 -323 -1170 -718 -1635 -37 -44 -139 -151 -227 -237 -170 -168 -207 -221 -237 -333 -30 -116 -14 -237 48 -365 83 -172 661 -879 1126 -1380 383 -411 420 -439 540 -410 123 29 195 169 147 284 -8 19 -99 124 -202 233 -401 424 -787 876 -1106 1293 -111 146 -128 176 -128 227 0 35 9 46 112 148 161 158 239 244 347 380 523 655 791 1494 750 2346 -16 340 -88 676 -205 964 -299 731 -868 1283 -1639 1588 -401 159 -809 240 -1344 267 -221 11 -261 11 -511 -1z"/>
+      <path d="M5720 9773 c-19 -1 -87 -8 -150 -14 -620 -56 -1311 -254 -1884 -536 -249 -123 -308 -161 -340 -217 -87 -150 10 -325 180 -326 45 0 77 13 271 108 384 189 705 308 1083 402 338 84 602 123 947 142 621 33 1176 -82 1582 -328 192 -117 398 -305 513 -469 375 -538 409 -1267 89 -1920 -110 -225 -240 -404 -426 -590 -180 -181 -383 -328 -625 -453 -223 -116 -408 -183 -757 -276 -211 -56 -308 -118 -364 -231 -20 -43 -24 -64 -24 -145 1 -83 5 -105 33 -176 88 -222 513 -845 967 -1419 347 -440 846 -995 928 -1034 94 -45 171 -35 241 29 52 48 70 99 64 174 -6 71 -16 84 -220 303 -515 553 -1123 1339 -1467 1898 -96 157 -85 182 102 234 574 158 1026 406 1400 771 431 419 694 923 777 1493 25 163 27 497 5 659 -41 310 -177 667 -348 915 -402 584 -1057 923 -1937 1003 -104 9 -554 12 -640 3z"/>
+      <path d="M5615 8914 c-736 -85 -1486 -367 -2102 -791 -132 -90 -164 -124 -189 -197 -49 -144 79 -293 233 -270 34 5 76 27 167 89 493 333 1076 576 1646 684 242 45 355 55 635 55 292 0 392 -12 595 -69 393 -111 660 -355 767 -702 25 -82 27 -101 27 -268 0 -163 -3 -189 -27 -278 -67 -248 -229 -493 -441 -666 -254 -208 -554 -337 -1026 -441 -393 -87 -548 -154 -709 -304 -63 -60 -142 -175 -170 -250 -57 -153 -55 -90 -59 -1466 -2 -895 0 -1280 8 -1316 13 -60 56 -117 113 -145 32 -17 54 -20 103 -17 75 5 128 37 165 101 l24 42 5 1275 5 1275 22 58 c67 177 196 254 548 327 527 108 889 259 1205 500 353 270 590 653 661 1071 27 157 23 403 -9 539 -109 464 -413 817 -873 1013 -151 65 -317 111 -514 144 -127 21 -647 26 -810 7z"/>
+      <path d="M5710 8075 c-566 -71 -1153 -295 -1684 -642 -261 -170 -469 -342 -564 -465 -53 -69 -105 -175 -128 -263 -18 -67 -19 -141 -19 -2042 l0 -1971 30 -44 c42 -59 96 -88 165 -88 97 0 174 53 205 139 13 39 15 256 15 1916 0 1216 4 1891 10 1925 15 79 50 148 108 211 102 111 384 308 658 461 653 363 1414 525 1826 388 346 -115 278 -419 -137 -610 -151 -71 -283 -108 -685 -196 -91 -19 -205 -47 -255 -61 -647 -180 -1029 -588 -1095 -1169 -8 -70 -10 -509 -8 -1486 l3 -1386 30 -44 c42 -59 96 -88 166 -88 80 0 135 31 177 100 l32 54 0 1286 c1 707 5 1344 9 1415 10 141 29 232 72 338 106 263 330 444 680 550 62 19 227 58 364 87 273 57 447 106 607 170 444 178 690 466 691 810 1 343 -249 600 -670 690 -130 28 -437 36 -603 15z"/>
+      <path d="M7134 4771 c-96 -24 -159 -107 -159 -206 1 -71 9 -88 112 -233 403 -567 942 -1205 1483 -1755 113 -115 223 -219 245 -232 84 -49 177 -41 245 21 51 46 75 108 67 174 -8 68 -30 105 -102 175 -177 172 -568 593 -812 875 -248 288 -510 619 -728 922 -65 89 -130 176 -144 191 -51 56 -140 85 -207 68z"/>
+    </g>
+  </symbol>
+</svg>
+
+<header class="top">
+  <a class="brand wordmark" href="../">
+    <svg class="mark" viewBox="0 0 641 838" aria-hidden="true"><use href="#rilup-mark"/></svg>
+    <span>rilup</span>
+  </a>
+  <nav>
+    <a href="../">Inicio</a>
+    <a href="../como-funciona/">Cómo funciona</a>
+  </nav>
+</header>
+
+<main>
+<div class="wrap">
+
+<section>
+  <p class="eyebrow">Guía</p>
+  <h1>Todo lo que puedes hacer en Rilup</h1>
+  <p class="lead">Rilup es una red social: publicas, sigues gente, comentas. Lo que cambia es que
+  acá nada se sube, todo se captura, y cada captura llega con la prueba de cuándo ocurrió.</p>
+  <p class="muted">Esta guía recorre las funciones una por una. Al lado de cada una está lo que
+  ninguna otra red puede ofrecer, que casi siempre es la misma cosa dicha de otra forma: acá el
+  dato no lo escribe nadie.</p>
+
+  <ul class="indice">
+    <li><a href="#capturar">Capturar</a></li>
+    <li><a href="#sello">El sello</a></li>
+    <li><a href="#certificado">El certificado</a></li>
+    <li><a href="#original">Ver original</a></li>
+    <li><a href="#camino">Tu camino</a></li>
+    <li><a href="#proyectos">Proyectos</a></li>
+    <li><a href="#lugar">El lugar</a></li>
+    <li><a href="#clubes">Clubes y eventos</a></li>
+    <li><a href="#social">Lo de siempre</a></li>
+  </ul>
+</section>
+
+<section id="capturar">
+  <div class="paso">
+    <div class="texto">
+      <p class="eyebrow">01</p>
+      <h2>Capturar</h2>
+      <p>Abres la cámara dentro de la app y grabas foto o video. Eso es todo, y eso es lo único.
+      No hay galería, no hay «subir archivo», no hay importar desde otra parte.</p>
+      <p>Puedes tomar varios intentos y decidir después cuál publicas. Los que no publicas quedan
+      solo en tu teléfono.</p>
+      <p class="distinto"><b>Por qué es distinto:</b> en cualquier otra red, la cámara es una
+      comodidad y la galería es la puerta real. Acá no existe esa puerta, y por eso todo lo demás
+      se puede afirmar.</p>
+    </div>
+    <figure class="figura">
+      <div class="pantalla" data-falta="Captura: la cámara de la app grabando">
+        <img src="img/01-camara.jpg" alt="" loading="lazy"
+             onerror="this.parentNode.classList.add('falta');this.remove()">
+      </div>
+      <figcaption>La cámara, única entrada</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="sello">
+  <div class="paso invertido">
+    <div class="texto">
+      <p class="eyebrow">02</p>
+      <h2>El sello</h2>
+      <p>Al capturar, la app le pide a Google un veredicto de que es la app oficial, sin modificar,
+      en un teléfono íntegro, y registra la huella criptográfica del archivo. Al publicar, el
+      servidor recalcula esa huella sobre lo que llegó: si no calza byte a byte, no se publica.</p>
+      <p>El resultado es el sello que ves junto a cada publicación.</p>
+      <p class="distinto"><b>Por qué es distinto:</b> no es una insignia que se compra ni que se
+      solicita. Es el resultado de una comprobación que ocurrió sola, en el instante del disparo.</p>
+    </div>
+    <figure class="figura">
+      <div class="pantalla" data-falta="Captura: el feed con el sello verificado visible">
+        <img src="img/02-sello.jpg" alt="" loading="lazy"
+             onerror="this.parentNode.classList.add('falta');this.remove()">
+      </div>
+      <figcaption>El sello, en el feed</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="certificado">
+  <div class="paso">
+    <div class="texto">
+      <p class="eyebrow">03</p>
+      <h2>El certificado</h2>
+      <p>Toca el sello y la publicación se da vuelta. Atrás está lo que se sabe de ella: el momento
+      de la captura en la hora de quien la tomó, si la firmó una llave de hardware y de qué nivel,
+      si el equipo y la app estaban íntegros, y, si su autor quiso, dónde ocurrió.</p>
+      <p>Cuando algo no se pudo comprobar, lo dice. No dice que falló.</p>
+      <p class="distinto"><b>Por qué es distinto:</b> las otras redes te piden que confíes. Acá
+      puedes dar vuelta la foto y leer la prueba, incluida la parte que no sabemos.</p>
+    </div>
+    <figure class="figura">
+      <div class="pantalla" data-falta="Captura: el certificado, con la publicación dada vuelta">
+        <img src="img/03-certificado.jpg" alt="" loading="lazy"
+             onerror="this.parentNode.classList.add('falta');this.remove()">
+      </div>
+      <figcaption>El reverso de una publicación</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="original">
+  <div class="paso invertido">
+    <div class="texto">
+      <p class="eyebrow">04</p>
+      <h2>Ver original</h2>
+      <p>Puedes editar: recortar, ajustar exposición, poner textos, aplicar un look de color. Nada
+      de eso toca el archivo capturado; se guarda como capas que se aplican al reproducir.</p>
+      <p>Por eso cualquiera puede mantener presionada una publicación y ver la captura cruda, tal
+      como salió del sensor.</p>
+      <p class="distinto"><b>Por qué es distinto:</b> en el resto de las redes, editar destruye el
+      original y nadie puede comprobar qué había antes. Acá el original sigue ahí, y no es un
+      privilegio del autor: lo ve cualquiera.</p>
+    </div>
+    <figure class="figura">
+      <div class="pantalla" data-falta="Captura o video: manteniendo presionado, la foto editada volviendo a la cruda">
+        <img src="img/04-original.jpg" alt="" loading="lazy"
+             onerror="this.parentNode.classList.add('falta');this.remove()">
+      </div>
+      <figcaption>Editado y original, uno encima del otro</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="camino">
+  <div class="paso">
+    <div class="texto">
+      <p class="eyebrow">05</p>
+      <h2>Tu camino</h2>
+      <p>Cada publicación tuya es un paso de algo más largo. Toca «Camino» y la foto se encoge y se
+      mete en un carrete que puedes rodar hacia los lados, con lo que hiciste antes y después.</p>
+      <p>Ahí también aparecen tus proyectos, y los clubes y eventos que elegiste mostrar.</p>
+      <p class="distinto"><b>Por qué es distinto:</b> las otras redes te muestran momentos sueltos,
+      cada uno peleando por parecer el mejor. Un camino muestra la insistencia, que es lo que de
+      verdad cuesta y lo único que no se puede improvisar.</p>
+    </div>
+    <figure class="figura">
+      <div class="pantalla" data-falta="Captura: el carrete abierto, con la cinta curvada">
+        <img src="img/05-camino.jpg" alt="" loading="lazy"
+             onerror="this.parentNode.classList.add('falta');this.remove()">
+      </div>
+      <figcaption>El carrete de un camino</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="proyectos">
+  <div class="paso invertido">
+    <div class="texto">
+      <p class="eyebrow">06</p>
+      <h2>Proyectos</h2>
+      <p>Agrupa capturas en un proyecto y quedan ordenadas por jornada, con los días contados desde
+      la hora firmada de cada una. Arriba, un resumen: cuántas capturas, cuántos días, cuántos
+      lugares y cuánto recorriste.</p>
+      <p>Si lo activas, se dibuja además el mapa con el recorrido que hiciste.</p>
+      <p class="distinto"><b>Por qué es distinto:</b> esos números no los escribió nadie. Salen de
+      las mismas firmas que prueban cada captura, así que un proyecto de nueve días no puede
+      decir que fueron nueve meses.</p>
+    </div>
+    <figure class="figura">
+      <div class="pantalla" data-falta="Captura: un proyecto con su resumen y el mapa del recorrido">
+        <img src="img/06-proyecto.jpg" alt="" loading="lazy"
+             onerror="this.parentNode.classList.add('falta');this.remove()">
+      </div>
+      <figcaption>Un proyecto y su recorrido</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="lugar">
+  <div class="paso">
+    <div class="texto">
+      <p class="eyebrow">07</p>
+      <h2>El lugar, si tú quieres</h2>
+      <p>La ubicación viene apagada. Si la enciendes, lo que se publica es una zona de unos 500
+      metros, nunca tu punto exacto, y se dibuja como un círculo sobre el mapa para que quede claro
+      que es una zona y no una dirección.</p>
+      <p>Puedes definir zonas privadas donde la app no adjunta ubicación jamás, como tu casa.</p>
+      <p class="distinto"><b>Por qué es distinto:</b> otras redes guardan tu coordenada exacta
+      aunque no la muestren. Acá el redondeo ocurre antes de guardarla, así que el dato preciso no
+      existe en ninguna parte.</p>
+    </div>
+    <figure class="figura">
+      <div class="pantalla" data-falta="Captura: la lámina de lugar con el círculo naranjo">
+        <img src="img/07-lugar.jpg" alt="" loading="lazy"
+             onerror="this.parentNode.classList.add('falta');this.remove()">
+      </div>
+      <figcaption>Una zona, no un punto</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="clubes">
+  <div class="paso invertido">
+    <div class="texto">
+      <p class="eyebrow">08</p>
+      <h2>Clubes y eventos</h2>
+      <p>Crea un club para tu grupo, o un evento con su fecha, su lugar y su radio. Las capturas de
+      los asistentes entran al álbum del evento, y las que ocurrieron dentro de su horario y su
+      lugar llevan además la marca de verificadas en el evento.</p>
+      <p>Puedes elegir que lo publicado dentro se quede dentro.</p>
+      <p class="distinto"><b>Por qué es distinto:</b> el álbum de un evento en cualquier otra red
+      contiene lo que la gente <b>dice</b> que es de ese evento. Acá la pertenencia se comprueba
+      sola, con la hora y el lugar de la captura. Nadie etiqueta nada.</p>
+    </div>
+    <figure class="figura">
+      <div class="pantalla" data-falta="Captura: un evento con su álbum y la marca de verificado en el evento">
+        <img src="img/08-evento.jpg" alt="" loading="lazy"
+             onerror="this.parentNode.classList.add('falta');this.remove()">
+      </div>
+      <figcaption>Un álbum que se verifica solo</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="social">
+  <h2>Y todo lo que ya esperas de una red social</h2>
+  <p>Sigues a quien te interesa y tu feed es de ellos, en orden cronológico, sin un algoritmo
+  decidiendo por ti. Comentas, guardas, mandas mensajes, buscas por disciplina y descubres gente en
+  Explorar.</p>
+  <p>Y si alguien te molesta, lo bloqueas y deja de existir para ti en los dos sentidos, o lo
+  denuncias y lo revisa una persona.</p>
+  <p class="distinto"><b>Por qué es distinto:</b> nada de esto es novedoso, y no debería serlo. Lo
+  que cambia no es cómo se usa una red social, es qué tan cierto es lo que hay dentro.</p>
+</section>
+
+<section>
+  <h2>Vuelve a lo real.</h2>
+  <p class="muted">No estamos contra la inteligencia artificial. Nos parece una herramienta
+  extraordinaria. Solo creemos que lo real merece un lugar propio donde brillar sin tener que
+  defenderse.</p>
+  <p class="cta">
+    <a href="https://play.google.com/store/apps/details?id=com.pahoex.rilup">Descargar Rilup</a>
+  </p>
+  <p class="cta-nota">Android. Gratis, sin anuncios.</p>
+</section>
+
+</div>
+</main>
+
+<footer>
+  <div class="links">
+    <a href="../">Inicio</a>
+    <a href="../como-funciona/">Cómo funciona</a>
+    <a href="../manifiesto/">Manifiesto</a>
+    <a href="../privacy/">Privacidad</a>
+    <a href="../terms/">Términos</a>
+    <a href="mailto:cbaixas@gmail.com">Contacto</a>
+  </div>
+  <p>Rilup es un producto de Pahoehoe SpA (Chile).<br>
+  Android es una marca de Google LLC.</p>
+</footer>
+
+</body>
+</html>

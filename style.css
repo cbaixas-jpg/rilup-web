@@ -257,3 +257,179 @@ footer a:hover { text-decoration: underline; }
 @media (max-width: 560px) {
   .destacado { font-size: 18px; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Las demostraciones, con capturas de verdad
+   ═══════════════════════════════════════════════════════════════════════════
+   La primera versión dibujaba los gestos en CSS con rectángulos. Cristóbal: "no se entiende", y
+   tenía razón. Un esquema de la app solo se entiende si ya sabes cómo es la app, o sea que le
+   servía justamente a quien no lo necesitaba.
+
+   Ahora son sus capturas reales, animadas: la misma pantalla en dos estados y el cruce entre
+   ellos. La foto editada y la original, la publicación y su certificado, la publicación y su
+   mapa. No hay que explicar qué representa cada rectángulo porque no hay rectángulos. */
+
+.demos { display: grid; gap: 30px; grid-template-columns: repeat(2, 1fr); margin-top: 28px; }
+@media (max-width: 640px) { .demos { grid-template-columns: 1fr; gap: 34px; } }
+
+.demo h3 { font-size: 17px; margin: 14px 0 4px; }
+.demo p { color: var(--gris); font-size: 14.5px; margin: 0; line-height: 1.5; }
+
+/* La escena: dos capturas apiladas y exactamente del mismo tamaño. Que midan igual no es un
+   detalle de estilo, es lo que hace que el cruce se lea como UNA pantalla cambiando y no como
+   dos imágenes turnándose. */
+.escena {
+  position: relative; border: 1px solid var(--borde); border-radius: 14px;
+  overflow: hidden; background: var(--surface);
+}
+.escena img { display: block; width: 100%; height: auto; }
+.escena img.b { position: absolute; inset: 0; }
+
+/* El toque. Del tamaño de un pulgar, porque es lo que muestra. */
+.toque {
+  position: absolute; width: 17%; aspect-ratio: 1; border-radius: 50%;
+  background: rgba(255,255,255,.20); border: 2px solid rgba(255,255,255,.75);
+  transform: translate(-50%, -50%); pointer-events: none;
+}
+
+/* 1 · Mantener presionado: la editada se va y aparece la original */
+@keyframes cruzar { 0%,18% { opacity: 0 } 30%,70% { opacity: 1 } 82%,100% { opacity: 0 } }
+@keyframes presionar {
+  0%,10%   { opacity: 0; transform: translate(-50%,-50%) scale(1.35) }
+  20%,72%  { opacity: 1; transform: translate(-50%,-50%) scale(1) }
+  84%,100% { opacity: 0; transform: translate(-50%,-50%) scale(1) }
+}
+/* Solo cruza la LAMINA, igual que el giro del sello. Las dos capturas son de sesiones
+   distintas (miden 1423 y 1420 px de alto, con la lamina en sitios que no coinciden), asi que
+   cruzar la pantalla completa hacia saltar toda la app: cabecera, fichas y barra inferior
+   cambiaban de tamaño y de posicion. Recortadas a la misma caja, lo unico que cambia es lo que
+   de verdad cambia en la app. */
+.g-original .tarjeta .b { animation: cruzar 5s ease-in-out infinite; }
+.g-original .toque { left: 50%; top: 44%; animation: presionar 5s ease-in-out infinite; }
+
+/* 2 · Tocar el sello: SOLO LA TARJETA se da vuelta.
+   ────────────────────────────────────────────────────────────────────────────
+   La primera versión giraba la captura entera, con barra de estado, cabecera, pestañas y barra
+   inferior incluidas. Cristóbal: "se está dando vuelta toda la imagen en vez de la tarjeta". Y
+   eso no es un detalle estético: en la app el teléfono no se da vuelta, se da vuelta UNA tarjeta
+   dentro de una pantalla que se queda quieta. Girar todo mostraba un gesto que no existe.
+
+   Así que el fondo es la captura CON EL HUECO VACÍO y encima va solo la lámina, en sus dos
+   caras. El hueco importa: con la captura completa detrás, al aplastarse la tarjeta asomaba la
+   misma foto por los lados y se leía como dos imágenes superpuestas en vez de una tarjeta
+   dándose vuelta. Detrás de una tarjeta que gira tiene que haber pantalla, no otra copia de la
+   tarjeta. La caja está en porcentajes medidos sobre la captura (x 2.5%, y 15.6%, 95% de
+   ancho, 61.56% de alto), que es lo que hace que la lámina caiga exactamente sobre su hueco por
+   grande o chica que se vea la imagen.
+
+   Las dos caras miden igual a propósito: el certificado es más corto que la foto y se rellenó
+   con el fondo de la app en vez de estirarlo. Estirado, al girar se vería un salto de tamaño
+   justo en el instante en que hay que creer que es la misma tarjeta. */
+.tarjeta { position: absolute; left: 2.5%; top: 12.4%; width: 95%; height: 63.9%; }
+.tarjeta img { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+@keyframes girar { 0%,26% { transform: scaleX(1) } 40% { transform: scaleX(.03) }
+                   54%,88% { transform: scaleX(1) } 100% { transform: scaleX(1) } }
+@keyframes caraA { 0%,34% { opacity: 1 } 42%,84% { opacity: 0 } 94%,100% { opacity: 1 } }
+@keyframes caraB { 0%,38% { opacity: 0 } 46%,82% { opacity: 1 } 92%,100% { opacity: 0 } }
+@keyframes tocar {
+  0%,8%    { opacity: 0; transform: translate(-50%,-50%) scale(1.4) }
+  16%,24%  { opacity: 1; transform: translate(-50%,-50%) scale(.85) }
+  32%,100% { opacity: 0; transform: translate(-50%,-50%) scale(.85) }
+}
+.g-sello .tarjeta   { animation: girar 5s ease-in-out infinite; }
+.g-sello .tarjeta .a { animation: caraA 5s linear infinite; }
+.g-sello .tarjeta .b { animation: caraB 5s linear infinite; }
+.g-sello .toque { left: 76%; top: 79.7%; animation: tocar 5s ease-in-out infinite; }
+
+/* 3 · Tocar el lugar: la pantalla entera cambia, y acá eso SÍ es lo que pasa.
+   El mapa se abre a pantalla completa, no por detrás de la publicación, así que un giro de
+   tarjeta seria mentir sobre el gesto. Se cruza la pantalla completa. */
+.g-lugar img.b  { animation: cruzar 5s ease-in-out infinite; }
+.g-lugar .toque { left: 44%; top: 79.7%; animation: tocar 5s ease-in-out infinite; }
+
+/* Quien pidió menos movimiento ve la primera pantalla, quieta. Una animación en bucle molesta de
+   verdad a alguien con sensibilidad vestibular, y acá la imagen detenida dice casi lo mismo. */
+@media (prefers-reduced-motion: reduce) {
+  .demo *, .demo .caras { animation: none !important; }
+  .demo .toque { display: none; }
+  .escena img.b { opacity: 0; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Súmate: la inscripción y su encuesta
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.sumate { background: var(--surface); border-top: 1px solid var(--borde);
+          border-bottom: 1px solid var(--borde); padding: 40px 0; margin-top: 48px; }
+.sumate h2 { margin-top: 0; }
+
+.campo { display: block; width: 100%; margin: 6px 0 18px; padding: 13px 14px;
+         background: var(--carbon); color: var(--crema); font: inherit;
+         border: 1px solid var(--borde); border-radius: 10px; }
+.campo:focus-visible { outline: 2px solid var(--brasa); outline-offset: 2px; }
+
+.pregunta { margin: 22px 0 0; font-weight: 700; font-size: 16px; }
+.pregunta + .ayuda { color: var(--gris); font-size: 13.5px; margin: 2px 0 10px; }
+
+/* Las opciones son etiquetas grandes y tocables, no radios diminutos: esto se responde con el
+   pulgar en un teléfono, y un radio de 14 px es una trampa. */
+.ops { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+.ops label { cursor: pointer; }
+.ops input { position: absolute; opacity: 0; pointer-events: none; }
+.ops span { display: inline-block; padding: 9px 14px; border-radius: 999px;
+            border: 1px solid var(--borde); font-size: 14.5px; line-height: 1.2; }
+.ops input:checked + span { border-color: var(--brasa); color: var(--brasa);
+                            background: rgba(254,89,1,.08); }
+.ops input:focus-visible + span { outline: 2px solid var(--brasa); outline-offset: 2px; }
+
+.trampa { position: absolute; left: -9999px; }
+.aviso { margin-top: 14px; font-size: 14.5px; }
+.aviso.ok  { color: var(--brasa); font-weight: 700; }
+.aviso.mal { color: #ff8f7a; }
+
+/* Los desplegables de la encuesta. Nativos y no una lista de casillas: el selector del sistema
+   ocupa una línea, se responde con el pulgar y ya lo conoce todo el mundo. Un formulario que se
+   ve corto se contesta; uno que se ve largo se abandona en la segunda pregunta. */
+select.campo {
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--gris) 50%),
+    linear-gradient(135deg, var(--gris) 50%, transparent 50%);
+  background-position: calc(100% - 19px) 21px, calc(100% - 13px) 21px;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 40px;
+}
+/* El desplegable abierto lo pinta el sistema, y ahí no manda nuestro CSS: hay que darle a las
+   opciones un fondo propio o en algunos Android salen texto claro sobre blanco. */
+select.campo option { background: var(--carbon); color: var(--crema); }
+
+/* El video del carrete, con la marca del grabador tapada.
+   ────────────────────────────────────────────────────────────────────────────
+   La grabacion trae la marca de agua del grabador de pantalla pegada abajo, y una marca ajena en
+   una pagina que habla de procedencia es lo peor que podria aparecer ahi.
+
+   El primer intento fue acortar el cuadro. Cristobal: "se acorta y queda raro", y era cierto: al
+   lado de tres escenas que muestran el telefono entero, una a la que le falta el final se lee
+   como un error de maquetado y no como una decision.
+
+   Asi que el cuadro vuelve a estar completo y la marca se TAPA con una franja del color de la
+   barra de navegacion, muestreado de la captura del mismo telefono: #231B10 arriba y #16130C
+   abajo, que es como se degrada de verdad. Cubre desde el 92,5% del alto, o sea la zona de la
+   marca, sin llegar a las etiquetas de la barra de la app.
+
+   Se hace en CSS y no rehaciendo el archivo: no hay ffmpeg aca, y aunque lo hubiera, recodificar
+   un video entero para arreglar una franja lo degrada completo. El dia que haya una grabacion
+   limpia, se borra este bloque y no queda rastro. */
+.recorte { position: relative; width: 100%; aspect-ratio: 576 / 1233; overflow: hidden; }
+.recorte video { position: absolute; top: -3.81%; left: 0; display: block; width: 100%; height: auto; }
+.recorte::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 7.8%;
+  background: linear-gradient(180deg, #231B10 0%, #201A11 55%, #16130C 100%);
+}
+
+/* En el lugar, el mapa se abre ENCIMA de todo, tarjeta incluida, porque en la app es una pantalla
+   completa y no el reverso de la publicacion. */
+.g-lugar img.b { z-index: 2; }

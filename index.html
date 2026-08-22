@@ -193,7 +193,8 @@
       <div class="demo">
         <div class="escena">
           <div class="recorte">
-            <video src="guia/img/carrete.mp4" muted loop playsinline preload="none"
+            <video src="guia/img/carrete.mp4" poster="guia/img/carrete-poster.jpg"
+                   muted loop playsinline autoplay preload="metadata"
                    aria-label="El carrete de un camino, deslizándose de lado y eligiendo una captura">
             </video>
           </div>
@@ -305,18 +306,22 @@
   </section>
 
   <script>
-  // El video del carrete se reproduce solo cuando esta a la vista, y nunca si el visitante pidio
-  // menos movimiento.
+  // El video del carrete: `autoplay` en la etiqueta y el observador solo como ayuda.
   //
-  // Sin esto habria que elegir entre dos cosas malas: `autoplay` baja 1,3 MB a todo el mundo
-  // aunque nunca llegue a esa seccion, y sin autoplay queda un video quieto que nadie va a tocar
-  // porque no parece un video, parece una captura. El observador resuelve las dos: no se baja
-  // nada hasta que aparece en pantalla, y ahi arranca solo.
+  // La primera version confiaba SOLO en el observador, con preload="none" y sin poster. En el
+  // iPhone de Cristobal no aparecia nada: sin poster no hay nada que dibujar hasta que empieza a
+  // reproducirse, y si `play()` no prospera (modo de bajo consumo, ahorro de datos, una politica
+  // de reproduccion mas estricta) el hueco se queda vacio para siempre y sin ningun aviso.
+  //
+  // Ahora hay tres capas: `poster` para que SIEMPRE se vea algo, `autoplay` con muted y
+  // playsinline que es lo que iOS acepta sin gesto, y el observador para pausar fuera de vista y
+  // no gastar bateria. Si las tres fallan, queda una imagen fija, que es un final honesto.
   (function () {
     var v = document.querySelector('.demos video');
     if (!v) return;
     var quieto = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (quieto.matches || !('IntersectionObserver' in window)) return;
+    if (quieto.matches) { v.removeAttribute('autoplay'); v.pause(); return; }
+    if (!('IntersectionObserver' in window)) return;
     new IntersectionObserver(function (entradas) {
       entradas.forEach(function (e) {
         if (e.isIntersecting) { v.preload = 'auto'; v.play().catch(function () {}); }

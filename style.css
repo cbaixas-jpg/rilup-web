@@ -64,7 +64,10 @@ header.top nav a { color: var(--gris); text-decoration: none; }
 header.top nav a:hover { color: var(--crema); }
 
 /* padding-block (no el atajo) para no pisar el padding horizontal de .wrap */
-section { padding-block: 48px; border-top: 1px solid var(--borde); }
+section { padding-block: 56px 48px; border-top: 1px solid var(--borde); }
+/* El rotulo naranjo baja un poco mas: entre la linea y el, tiene que caber una pausa. Sin ella
+   el ojo lee "linea-rotulo" como un solo objeto y parece un error de maquetado. */
+section > .eyebrow:first-child { margin-top: 10px; }
 section:first-of-type { border-top: 0; }
 
 h1, h2, h3 { line-height: 1.2; }
@@ -590,12 +593,17 @@ select.campo option { background: var(--carbon); color: var(--crema); }
   border: 1px solid var(--borde); background: var(--surface);
 }
 .mundo figcaption {
-  position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 12px 11px;
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 13px 13px;
   border-radius: 0 0 12px 12px;
   background: linear-gradient(180deg, transparent, rgba(10,7,4,.88));
 }
-.mundo figcaption b { display: block; font-size: 15px; }
-.mundo figcaption span { display: block; color: #cdbfae; font-size: 12.5px; line-height: 1.35; }
+.mundo figcaption b {
+  display: block; font-size: 15.5px; font-weight: 700;
+  letter-spacing: .3px; margin-bottom: 5px;
+}
+.mundo figcaption span {
+  display: block; color: #cdbfae; font-size: 12.5px; line-height: 1.4;
+}
 
 /* ── Proyectos, eventos y clubes ─────────────────────────────────────────────
    Van aparte de los seis mundos porque son otra cosa: los mundos dicen QUE vas a ver, estos dicen
@@ -611,7 +619,10 @@ select.campo option { background: var(--carbon); color: var(--crema); }
   border: 1px solid var(--borde); background: var(--surface);
 }
 .unico figcaption { padding-top: 10px; }
-.unico figcaption b { display: block; color: var(--brasa); font-size: 16px; margin-bottom: 3px; }
+.unico figcaption b {
+  display: block; color: var(--brasa); font-size: 16.5px; font-weight: 700;
+  letter-spacing: .3px; margin-bottom: 7px;
+}
 .unico figcaption span { color: var(--gris); font-size: 14px; line-height: 1.5; }
 
 @media (max-width: 700px) {

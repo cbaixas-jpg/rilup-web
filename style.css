@@ -462,7 +462,21 @@ select.campo option { background: var(--carbon); color: var(--crema); }
 @supports (aspect-ratio: 1 / 1) {
   .recorte { padding-top: 0; aspect-ratio: 576 / 1233; }
 }
-.recorte video { position: absolute; top: -3.81%; left: 0; display: block; width: 100%; height: auto; }
+/* El alto va declarado, NO en `auto`.
+   ────────────────────────────────────────────────────────────────────────────
+   Con `height: auto` el navegador necesita saber cuanto mide el video para darle alto, y eso solo
+   lo sabe cuando llegan los metadatos. Al envolverlo en `.recorte` le quite los atributos
+   width/height, asi que hasta que el archivo respondiera el elemento medía CERO de alto: ni el
+   video ni el poster tenian donde dibujarse. En un navegador que carga rapido no se nota; en un
+   iPhone con la conexion mala, o con el ahorro de datos, el hueco se queda vacio.
+
+   El alto se deduce de la geometria y no del archivo: el contenedor muestra 1233 px de video y el
+   video mide 1280, asi que el video ocupa 1280/1233 = 103,81% del alto del contenedor, y el
+   desplazamiento de 47 px que esconde la barra de estado es el 3,81% de ese mismo alto. */
+.recorte video {
+  position: absolute; top: -3.81%; left: 0; display: block;
+  width: 100%; height: 103.81%; object-fit: cover;
+}
 .recorte::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 7.8%;
   background: linear-gradient(180deg, #231B10 0%, #201A11 55%, #16130C 100%);

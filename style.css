@@ -312,9 +312,14 @@ footer a:hover { text-decoration: underline; }
 
 /* El toque. Del tamaño de un pulgar, porque es lo que muestra. */
 .toque {
-  position: absolute; width: 17%; aspect-ratio: 1; border-radius: 50%;
+  position: absolute; width: 17%; padding-bottom: 17%; height: 0; border-radius: 50%;
   background: rgba(255,255,255,.20); border: 2px solid rgba(255,255,255,.75);
   transform: translate(-50%, -50%); pointer-events: none;
+}
+/* Con `aspect-ratio` disponible se usa esa, que es lo correcto; el relleno de arriba es el
+   respaldo para iOS anterior a la 15, donde sin alto el circulo del gesto no se ve. */
+@supports (aspect-ratio: 1 / 1) {
+  .toque { padding-bottom: 0; height: auto; aspect-ratio: 1; }
 }
 
 /* 1 · Mantener presionado: la editada se va y aparece la original */
@@ -481,3 +486,75 @@ select.campo option { background: var(--carbon); color: var(--crema); }
 /* En el lugar, el mapa se abre ENCIMA de todo, tarjeta incluida, porque en la app es una pantalla
    completa y no el reverso de la publicacion. */
 .g-lugar img.b { z-index: 2; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   El muro: dos cintas de capturas que se deslizan solas
+   ═══════════════════════════════════════════════════════════════════════════
+   "Encuentro que está un poco fome la web, para ser de una red social." Tenía razón, y el número
+   lo confirmaba: 369 palabras antes de la primera imagen. Alguien entraba y leía cuatro párrafos
+   de concepto antes de ver cómo se ve Rilup.
+
+   Ahora lo primero después del titular es contenido moviéndose. Una red social no se explica, se
+   muestra: si en tres segundos se ve una iguana, una escalada, unas manos tocando piano y una
+   feria, ya se entendió qué clase de sitio es esto.
+
+   Dos cintas en sentidos OPUESTOS. Una sola en un sentido se lee como un carrusel de banco; dos
+   cruzándose se lee como un muro vivo. La de abajo va más lenta para que no compitan.
+
+   La lista de piezas va DUPLICADA en el HTML, y no es un descuido: el bucle se hace desplazando
+   la tira hasta la mitad exacta de su ancho, y en ese punto la segunda copia está donde estaba la
+   primera. Sin la copia, al llegar al final habría un salto visible. */
+
+.muro { overflow: hidden; padding: 4px 0 8px; }
+.cinta { overflow: hidden; margin-bottom: 12px; }
+.tira { display: flex; gap: 12px; width: max-content; animation: correr 60s linear infinite; }
+.tira.derecha { animation-direction: reverse; }
+.cinta.lenta .tira { animation-duration: 88s; }
+@keyframes correr { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+
+/* Al pasar el cursor se detiene, para poder mirar una. En un teléfono no aplica y da igual:
+   ahí la cinta ya es el movimiento y no hay puntero que la detenga. */
+.muro:hover .tira { animation-play-state: paused; }
+
+.pieza { margin: 0; position: relative; flex: 0 0 auto; width: 158px; }
+.pieza img {
+  display: block; width: 100%; height: auto; border-radius: 12px;
+  border: 1px solid var(--borde); background: var(--surface);
+}
+/* El sello sobre cada pieza. Es la marca de la app y acá hace el mismo trabajo: decir que eso
+   que estás mirando trae algo detrás que lo respalda. */
+.pieza figcaption {
+  position: absolute; left: 8px; right: 8px; bottom: 8px;
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11.5px; font-weight: 600; color: var(--crema);
+  text-shadow: 0 1px 6px rgba(0,0,0,.9);
+}
+.pieza .sello { height: 13px; width: auto; fill: var(--brasa); flex: 0 0 auto; }
+
+@media (min-width: 700px) { .pieza { width: 190px; } }
+
+/* Sin movimiento: las cintas se quedan quietas y se pueden arrastrar con el dedo. Una cinta
+   infinita en bucle es de las cosas que de verdad marean a alguien con sensibilidad vestibular. */
+@media (prefers-reduced-motion: reduce) {
+  .tira { animation: none; }
+  .cinta { overflow-x: auto; }
+}
+
+/* ── Los seis mundos, con foto ────────────────────────────────────────────────
+   Eran 128 palabras describiendo en prosa lo que se puede ver. Una sección que dice "mira lo que
+   hay" sin mostrar nada era justo lo que sobraba. */
+.mundos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 20px; }
+@media (max-width: 640px) { .mundos { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+
+.mundo { margin: 0; position: relative; }
+.mundo img {
+  display: block; width: 100%; height: auto; border-radius: 12px;
+  border: 1px solid var(--borde); background: var(--surface);
+}
+.mundo figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 12px 11px;
+  border-radius: 0 0 12px 12px;
+  background: linear-gradient(180deg, transparent, rgba(10,7,4,.88));
+}
+.mundo figcaption b { display: block; font-size: 15px; }
+.mundo figcaption span { display: block; color: #cdbfae; font-size: 12.5px; line-height: 1.35; }

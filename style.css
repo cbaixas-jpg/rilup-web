@@ -270,7 +270,19 @@ footer a:hover { text-decoration: underline; }
    mapa. No hay que explicar qué representa cada rectángulo porque no hay rectángulos. */
 
 .demos { display: grid; gap: 30px; grid-template-columns: repeat(2, 1fr); margin-top: 28px; }
-@media (max-width: 640px) { .demos { grid-template-columns: 1fr; gap: 34px; } }
+@media (max-width: 640px) {
+  /* En telefono, imagen y texto lado a lado. Apilados, cada escena ocupaba una pantalla entera y
+     habia que recordar la imagen para leer el texto. */
+  .demos { grid-template-columns: 1fr; gap: 26px; }
+  .demo { display: grid; grid-template-columns: 38% 1fr; gap: 14px; align-items: start; }
+  .escena { max-width: none; }
+  .demo h3 { margin-top: 0; }
+}
+@media (max-width: 380px) {
+  /* En pantallas muy angostas ni eso cabe: se vuelve a apilar, con la imagen chica. */
+  .demo { grid-template-columns: 1fr; }
+  .escena { max-width: 190px; }
+}
 
 .demo h3 { font-size: 17px; margin: 14px 0 4px; }
 .demo p { color: var(--gris); font-size: 14.5px; margin: 0; line-height: 1.5; }
@@ -278,12 +290,29 @@ footer a:hover { text-decoration: underline; }
 /* La escena: dos capturas apiladas y exactamente del mismo tamaño. Que midan igual no es un
    detalle de estilo, es lo que hace que el cruce se lea como UNA pantalla cambiando y no como
    dos imágenes turnándose. */
+/* La escena tiene TOPE de ancho, y es lo que faltaba.
+   ────────────────────────────────────────────────────────────────────────────
+   Una captura de telefono mide 0,45 de ancho por 1 de alto. Sin tope, en una columna de 340 px
+   se estiraba a 750 px de alto, y en un telefono a pantalla completa a mas de 800: la imagen se
+   comia la pantalla entera y el texto que la explica quedaba a un scroll de distancia, o sea sin
+   relacion visible con lo que describe. Por eso "los portes no calzan con los textos".
+
+   Con tope, la escena y su parrafo caben juntos en un golpe de vista, que es la unica forma de
+   que un pie de foto funcione como pie de foto. */
 .escena {
   position: relative; border: 1px solid var(--borde); border-radius: 14px;
   overflow: hidden; background: var(--surface);
+  max-width: 250px; margin: 0 auto;
 }
 .escena img { display: block; width: 100%; height: auto; }
-.escena img.b { position: absolute; inset: 0; }
+/* `top/left/right/bottom` y no `inset`.
+   ────────────────────────────────────────────────────────────────────────────
+   `inset` llego a Safari de iPhone en la 14.5. En una version anterior la linea entera se ignora,
+   y entonces una imagen `position: absolute` sin desplazamientos se queda en su sitio del flujo:
+   las dos caras dejan de superponerse y se apilan una debajo de la otra. Eso es exactamente lo
+   que se vio en el iPhone de Cristobal, con las tres fotos una tras otra en vez de la animacion.
+   La forma larga funciona en todo lo que existe y no cuesta nada. */
+.escena img.b { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
 
 /* El toque. Del tamaño de un pulgar, porque es lo que muestra. */
 .toque {
@@ -326,7 +355,7 @@ footer a:hover { text-decoration: underline; }
    con el fondo de la app en vez de estirarlo. Estirado, al girar se vería un salto de tamaño
    justo en el instante en que hay que creer que es la misma tarjeta. */
 .tarjeta { position: absolute; left: 2.5%; top: 12.4%; width: 95%; height: 63.9%; }
-.tarjeta img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.tarjeta img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
 @keyframes girar { 0%,26% { transform: scaleX(1) } 40% { transform: scaleX(.03) }
                    54%,88% { transform: scaleX(1) } 100% { transform: scaleX(1) } }
@@ -423,7 +452,16 @@ select.campo option { background: var(--carbon); color: var(--crema); }
    Se hace en CSS y no rehaciendo el archivo: no hay ffmpeg aca, y aunque lo hubiera, recodificar
    un video entero para arreglar una franja lo degrada completo. El dia que haya una grabacion
    limpia, se borra este bloque y no queda rastro. */
-.recorte { position: relative; width: 100%; aspect-ratio: 576 / 1233; overflow: hidden; }
+.recorte {
+  position: relative; width: 100%; overflow: hidden;
+  /* Respaldo para navegadores sin `aspect-ratio` (Chrome anterior a 88, WebView viejo de
+     Android): sin alto declarado el contenedor mide cero y el video simplemente no aparece.
+     1233/576 = 214,06%. */
+  padding-top: 214.06%;
+}
+@supports (aspect-ratio: 1 / 1) {
+  .recorte { padding-top: 0; aspect-ratio: 576 / 1233; }
+}
 .recorte video { position: absolute; top: -3.81%; left: 0; display: block; width: 100%; height: auto; }
 .recorte::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 7.8%;

@@ -52,8 +52,8 @@
     <h1>Vuelve a lo real.</h1>
     <p class="sub">La red social donde todo se captura en vivo y se verifica en el momento.
       Nada generado, nada importado.</p>
-    <a class="cta" href="https://play.google.com/store/apps/details?id=com.pahoex.rilup">Consigue Rilup</a>
-    <p class="cta-nota">Android · Rilup está en beta cerrada.</p>
+    <a class="cta" href="#sumate">Quiero entrar</a>
+    <p class="cta-nota">Android · En beta cerrada. Te avisamos cuando abra.</p>
   </section>
 
   <!-- ============ EL MURO ============ -->
@@ -450,14 +450,14 @@
 
 
   <!-- ============ SÚMATE ============ -->
-  <section class="sumate">
+  <section class="sumate" id="sumate">
    <div class="wrap">
     <p class="eyebrow">Súmate</p>
     <h2>Rilup está en beta cerrada.</h2>
     <p>Déjanos tu correo y te avisamos cuando abra. Si quieres entrar antes y ayudarnos a
       romperla, marca la casilla de probador.</p>
 
-    <form id="sumate" novalidate>
+    <form id="form-sumate" novalidate>
       <label for="email"><b>Tu correo</b></label>
       <input class="campo" type="email" id="email" name="email" required
              autocomplete="email" placeholder="tu@correo.com">
@@ -555,7 +555,7 @@
   (function () {
     var API = 'https://picjhxuzmyusghebkkhj.supabase.co/rest/v1/lista_espera';
     var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBpY2poeHV6bXl1c2doZWJra2hqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3NDM0MzcsImV4cCI6MjEwMTMxOTQzN30.WqwR2Xd1d1ybYxdad9fRsFnmCA_X7toPO21X6lIf3-M';
-    var f = document.getElementById('sumate');
+    var f = document.getElementById('form-sumate');
     var aviso = document.getElementById('aviso');
     var boton = document.getElementById('enviar');
 
@@ -617,8 +617,8 @@
   <!-- ============ CTA FINAL ============ -->
   <section class="wrap hero" style="padding-bottom:24px">
     <h2>Vuelve a lo real.</h2>
-    <a class="cta" href="https://play.google.com/store/apps/details?id=com.pahoex.rilup">Consigue Rilup</a>
-    <p class="cta-nota">Android · Rilup está en beta cerrada.</p>
+    <a class="cta" href="#sumate">Quiero entrar</a>
+    <p class="cta-nota">Android · En beta cerrada. Te avisamos cuando abra.</p>
   </section>
 
 </main>

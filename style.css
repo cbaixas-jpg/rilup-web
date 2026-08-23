@@ -64,7 +64,13 @@ header.top nav a { color: var(--gris); text-decoration: none; }
 header.top nav a:hover { color: var(--crema); }
 
 /* padding-block (no el atajo) para no pisar el padding horizontal de .wrap */
-section { padding-block: 56px 48px; border-top: 1px solid var(--borde); }
+/* El ritmo de las secciones y su linea divisoria.
+   ────────────────────────────────────────────────────────────────────────────
+   Mas espacio ABAJO que arriba, y no es un capricho: la linea le pertenece a la seccion que ABRE.
+   Con 48 px por lado, simetricos, la linea quedaba a la misma distancia de las dos y el ojo la
+   leia pegada al contenido anterior, como si lo cerrara de golpe. Ahora hay 68 px antes de la
+   linea y 56 despues, asi que la linea entra con el bloque nuevo en vez de rematar el viejo. */
+section { padding-block: 56px 68px; border-top: 1px solid var(--borde); }
 /* El rotulo naranjo baja un poco mas: entre la linea y el, tiene que caber una pausa. Sin ella
    el ojo lee "linea-rotulo" como un solo objeto y parece un error de maquetado. */
 section > .eyebrow:first-child { margin-top: 10px; }
@@ -82,7 +88,7 @@ h2 {
   margin: 0 0 8px;
   letter-spacing: -0.4px;
 }
-h3 { font-size: 18px; margin: 0 0 4px; }
+h3 { font-size: 18px; margin: 22px 0 6px; }
 
 .eyebrow {
   color: var(--brasa);
@@ -239,14 +245,7 @@ footer a:hover { text-decoration: underline; }
   gap: 20px 28px;
   margin-top: 26px;
 }
-.mundos h3 {
-  color: var(--brasa);
-  font-size: 15px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-.mundos p { margin: 0; color: var(--gris); font-size: 15px; }
+/* (los mundos ya no usan h3 ni p: van en figure/figcaption mas abajo) */
 
 /* Frase ancla del relato: el giro de "algo se perdió" a "Rilup existe para eso" */
 .destacado {
@@ -273,6 +272,11 @@ footer a:hover { text-decoration: underline; }
    mapa. No hay que explicar qué representa cada rectángulo porque no hay rectángulos. */
 
 .demos { display: grid; gap: 30px; grid-template-columns: repeat(2, 1fr); margin-top: 28px; }
+
+/* Respira mas ARRIBA que abajo: eso es lo que ata el titulo al parrafo que explica y lo separa
+   de la imagen que ilustra. Al reves, el titulo flota entre las dos sin pertenecer a ninguna. */
+.demo h3 { font-size: 17.5px; font-weight: 700; letter-spacing: .3px; margin: 22px 0 8px; }
+.demo p  { color: var(--gris); font-size: 14.5px; margin: 0; line-height: 1.55; }
 @media (max-width: 640px) {
   /* En telefono se APILA, con la imagen chica y centrada.
      ──────────────────────────────────────────────────────────────────────────

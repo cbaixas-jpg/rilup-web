@@ -584,8 +584,11 @@
           'Content-Type': 'application/json',
           'apikey': KEY,
           'Authorization': 'Bearer ' + KEY,
-          // Que un correo repetido no sea un error: quien se inscribe dos veces no hizo nada mal.
-          'Prefer': 'resolution=ignore-duplicates,return=minimal'
+          // Solo `return=minimal`. Con `resolution=ignore-duplicates` PostgREST convierte la
+          // insercion en un upsert, y eso pide mas permisos de los que tiene un visitante
+          // anonimo: la respuesta era un 401 de politica de seguridad, o sea el formulario no
+          // guardaba NADA. El correo repetido se resuelve abajo, mirando el 409.
+          'Prefer': 'return=minimal'
         },
         body: JSON.stringify({
           email: email,
@@ -599,6 +602,14 @@
           }
         })
       }).then(function (r) {
+        // 409 es un correo que ya estaba en la lista. No es un error de nadie: se le dice, y se
+        // le dice bien, porque "no pudimos guardarlo" haria pensar que quedo fuera.
+        if (r.status === 409) {
+          f.style.display = 'none';
+          aviso.className = 'aviso ok';
+          aviso.textContent = 'Ya estabas en la lista. Te avisamos apenas abra.';
+          return;
+        }
         if (!r.ok) throw new Error(r.status);
         f.style.display = 'none';
         aviso.className = 'aviso ok';

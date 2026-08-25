@@ -7,7 +7,7 @@
 <meta name="description" content="Un oasis para celebrar lo real. La red social del talento humano, la naturaleza y los momentos que de verdad pasaron: todo capturado en vivo, nada generado.">
 <meta name="theme-color" content="#17110B">
 <link rel="icon" href="mark.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css?v=9d831678">
+<link rel="stylesheet" href="style.css?v=ef1f84d8">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Rilup">
 <meta property="og:title" content="Rilup, vuelve a lo real">
@@ -249,10 +249,13 @@
     <p class="eyebrow">Por qué existe</p>
     <h2>Algo se está perdiendo.</h2>
     <p class="lead">Y no es que el mundo sea menos increíble. Es que dejamos de creerlo.</p>
-    <p>Ves una ola perfecta, un niño tocando piano, una aurora sobre la cordillera, y lo primero
-      que piensas es «debe ser AI». En ese segundo se disuelve el mérito de alguien que pasó años
-      entrenando.</p>
-    <p class="destacado">Rilup existe para devolverte ese segundo.</p>
+    <p>Ves una ola perfecta, un niño prodigio tocando piano, una aurora sobre la cordillera, un
+      retrato que parece una foto, y lo primero que piensas es «debe ser AI». En ese segundo se
+      disuelve el mérito de quien pasó años entrenando, o meses estudiando, buscando referencias,
+      equivocándose y volviendo a empezar, para competir contra algo que salió de una frase en
+      treinta segundos. El proceso era la parte difícil, y dejó de contar.</p>
+    <p class="destacado">Rilup existe para devolverte ese segundo de asombro, y el mérito del
+      proceso.</p>
     <p class="muted small"><a href="manifiesto/">Por qué existe Rilup, en el manifiesto →</a></p>
   </section>
 
@@ -384,8 +387,8 @@
         <img src="muro/proyecto.jpg" alt="" width="360" height="519" loading="lazy">
         <figcaption>
           <b>Proyectos</b>
-          <span>Meses de trabajo en una sola pieza. Cada paso con su fecha real, imposible de
-            rellenar después.</span>
+          <span>Del boceto a la obra, del primer intento al día que salió. Cada paso con su
+            fecha real, imposible de rellenar después.</span>
         </figcaption>
       </figure>
 
@@ -517,6 +520,17 @@
       <p class="cta-nota">Solo usamos tu correo para avisarte de Rilup. No lo compartimos con
         nadie y puedes pedirnos que lo borremos cuando quieras.</p>
     </form>
+
+    <!-- El agradecimiento va FUERA del formulario, y no es un detalle de maquetado.
+         Estaba dentro, y al enviar se ocultaba el formulario entero: con el se iba el mensaje.
+         Quien contestaba veia desaparecer todo y quedaba sin saber si se habia enviado, que es
+         el final mas frustrante que puede tener un formulario. -->
+    <div id="gracias" hidden>
+      <h3 id="gracias-titulo">¡Gracias!</h3>
+      <p id="gracias-texto"></p>
+      <p class="cta-nota">Gracias por apoyar esto tan temprano. Somos una persona construyendo
+        Rilup, así que cada correo en esta lista pesa de verdad.</p>
+    </div>
    </div>
   </section>
 
@@ -564,6 +578,16 @@
       return (e && e.value) ? e.value : null;
     }
 
+    function gracias(titulo, texto) {
+      f.hidden = true;
+      var g = document.getElementById('gracias');
+      document.getElementById('gracias-titulo').textContent = titulo;
+      document.getElementById('gracias-texto').textContent = texto;
+      g.hidden = false;
+      aviso.textContent = '';
+      g.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
     f.addEventListener('submit', function (ev) {
       ev.preventDefault();
       if (f.web.value) return;                      // robot
@@ -605,21 +629,28 @@
         // 409 es un correo que ya estaba en la lista. No es un error de nadie: se le dice, y se
         // le dice bien, porque "no pudimos guardarlo" haria pensar que quedo fuera.
         if (r.status === 409) {
-          f.style.display = 'none';
-          aviso.className = 'aviso ok';
-          aviso.textContent = 'Ya estabas en la lista. Te avisamos apenas abra.';
+          gracias('Ya estabas en la lista',
+                  'Tu correo ya estaba anotado, así que no hiciste nada mal: te avisamos igual '
+                  + 'apenas Rilup abra.');
           return;
         }
-        if (!r.ok) throw new Error(r.status);
-        f.style.display = 'none';
-        aviso.className = 'aviso ok';
-        aviso.textContent = f.probar.checked
-          ? '¡Listo! Te escribimos con la invitación de probador.'
-          : '¡Listo! Te avisamos apenas abra.';
-      }).catch(function () {
+        if (!r.ok) {
+          return r.text().then(function (t) {
+            throw new Error(r.status + ' ' + (t || '').slice(0, 120));
+          });
+        }
+        gracias('¡Gracias, quedaste en la lista!', f.probar.checked
+          ? 'Te escribimos a ' + email + ' con la invitación de probador. Puede tomar unos días: '
+            + 'las invitaciones salen por tandas.'
+          : 'Te avisamos a ' + email + ' apenas Rilup abra.');
+      }).catch(function (e) {
+        // El codigo de error va en el aviso, entre corchetes. Sin el, todos los finales malos se
+        // ven iguales: cache vieja, politica de la tabla, red caida, tabla inexistente. Es el
+        // mismo problema que costo un dia en la app, y la misma solucion.
         boton.disabled = false;
         aviso.className = 'aviso mal';
-        aviso.textContent = 'No pudimos guardarlo. Inténtalo de nuevo, o escríbenos a cbaixas@gmail.com.';
+        aviso.textContent = 'No pudimos guardarlo. Inténtalo de nuevo, o escríbenos a '
+          + 'admin@rilup.com.  [' + (e && e.message ? e.message : 'sin respuesta') + ']';
       });
     });
   })();
@@ -643,7 +674,7 @@
     <a href="terms/">Términos</a>
     <a href="borrar-cuenta/">Eliminar cuenta</a>
     <a href="seguridad-infantil/">Seguridad infantil</a>
-    <a href="mailto:cbaixas@gmail.com">Contacto</a>
+    <a href="mailto:admin@rilup.com">Contacto</a>
   </div>
   <p>Rilup es un producto de Pahoehoe SpA (Chile).<br>
   Android es una marca de Google LLC.</p>

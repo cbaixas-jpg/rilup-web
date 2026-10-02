@@ -28,4 +28,4 @@ table: it allows an insert and refuses every read.
 
 ---
 
-Pahoehoe SpA, Chile
+Rilup SpA, Chile

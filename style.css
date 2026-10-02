@@ -635,3 +635,10 @@ select.campo option { background: var(--carbon); color: var(--crema); }
   .unico { display: grid; grid-template-columns: 34% 1fr; gap: 14px; align-items: start; }
   .unico figcaption { padding-top: 0; }
 }
+
+/* El agradecimiento, cuando el formulario ya se envio.
+   Se ve como un mensaje y no como otro parrafo mas: si al enviar la pagina se limita a cambiar
+   una linea de texto, quien contesto no sabe si paso algo. */
+#gracias { border-left: 3px solid var(--brasa); padding: 4px 0 4px 16px; margin-top: 8px; }
+#gracias h3 { color: var(--brasa); font-size: 20px; margin: 0 0 8px; }
+#gracias p { margin: 0 0 10px; }
